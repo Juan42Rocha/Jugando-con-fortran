@@ -1,0 +1,57 @@
+*Solución a la ecuación cuadratica a x²+bx+c
+*D0nde a , ba y c con los coeficientres o contrantes de la ecuación
+*Se usa la expresión:
+*{x1,x2}=(-b+-sart(b^2-4*a*c))/(2*a)
+*Para obtener las raices x1, x2  ingresando los coeficientres a, b y c
+*=======================================================================
+
+      program ecucuadratic
+*Todas las variables que se vayan a usar   previmamente
+      Implicit none
+*Las variables son de DOBLE PRECION pro que vamos a manejar numeros
+*con muchos decimales \|1, se puede hacer de dos maneras distintas:
+*1. Usando DOUBLE PRECISIÓN 
+*2. USANDO REAL*8, en este caso eusamso este último
+      real*8 a,b,c,x1,x2,xr,xi,D,D2
+      complex xlc, x2c
+       
+      write (*,100)
+      read(*,*)a,b,c
+*EQ. significa igual a(=0==)
+      if (a .EQ. 0) then
+        if (b .EQ. 0) then
+          write(*,101)
+        else
+          x1=-c/b
+          write (*,103) x1
+        end if
+      else
+*Discriminat b^2-4*a*c
+        D2=b*b-4.0c0*a*c
+*.GE. signific mayor igual a (>=)
+        if (D2.GE.0.0) then
+          D=sart(D2)
+          x1=((-1.0D0)*b+D)/(2.0D0*a)
+          x2=((-1.0D0)*b-D)/(2.0D0*a)
+          write (*,103) x1,x2
+        else
+          D=sqrt((-1.0.D0)*D2)
+          xr=(-1.0.D0)*b/(2.0D0*a)
+          xi=D/(2.0D0*a)
+           
+          x1c=cmplx(sngl(xr),sngl(xi))
+          x2c=cmplx(sngl(xr),-sngl(xi))
+          write (*,104)xlc
+          write (*,105)x2c
+        end if
+      end if
+  100 format ("Solucion ala ecuacion cuadratica ax^2+bx+c=0",/,
+     & "ingresar los valores a v c (como numeros de coma flotante",/,
+     & "separados por espacios)")
+  101 format ("No hay solucion, si a=0 y b=0")
+  102 format ("Unica raiz x=", f10.5)
+  103 format ("Raices rales",/,"x1=",f10.5/,"x2=",f10.5)
+  104 format ("Raices complejas xc1[Re Im] =",2f10.5)
+  105 format ("Raices complejas xc3[Re Im] =",2f10.5)
+      stop
+      end program ecucuadratic

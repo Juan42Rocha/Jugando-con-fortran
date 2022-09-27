@@ -1,0 +1,73 @@
+* ***************************SIR.F**************************************
+* Modelo matemático determinista SIR (susceptible+Infectados+Recuperados)
+* En 19927 W.O. Kermack y A.G. McKendrick crearon el modelo SIR que considera 
+* una enfermedad que se desarrolla a lo largo del tiempo y considerar unicamente tres
+* clases de individuos (de donde proviene el nombre)
+*
+*                   S   -> I -> R
+*
+* S(t) representa a los infividuos susceptibles, es decir, aquellos que no han
+* Enfermado anteriormente y por lo tanto pueden resultar infecatdos al entrar
+* En contacto con la enfermedad.
+*
+* I(t) representa a los individuos infectados y por lo tanto en condiciones de 
+* transmitir la enfermeda a los del grupo S
+*
+* R(t) representa a los individuos recobrados de la enfermedad, y que ya 
+* no están en condiciones ni de enfermar ni de enfermar nuevamente ni de transmitir la
+* enfermedad a otros (inmunes o muertos)
+*
+* B - Tasa de contagios (probabilidad de que una persona enferme al estar 
+* en contacto cn un infectado).
+*
+* 1/A - Tiempo promedio de infección (par un solo individuo).
+*
+* Dada una población fija N=s(t)+I(t)+R(t), Kermack y McKendrick obruvieron 
+* Las siguientes ecuaciones diferenciales que describen el modelo:
+*
+*       dS/dt = -b * S * I
+*       dI/dt = b * S * I -A * I
+*       dR/dt = A * I
+*
+* Con la condición
+*   S(t) + I(t) + R(t) = S0 + I0 + R0 = N(t) = 1
+*
+* Donde N(t) es el número total de la población normada, solo se
+*¨tiene que multiplicar por el número de una población especifica  para obtener
+* las proporciones correspondientes. 
+
+      program SIR
+      implicit none
+      double precision S, I, R, S0, I0, R0
+      double precision B, A, dt, t
+      integer j, nstep 
+* Enfermedad poco infecciosa
+      B = 0.05D0
+      A = 0.2D0
+* Enfermedad muy infecciosa
+*     B = 0.5D0
+*     A = 0.2D0
+* Consiciones iniciales 98% de la población es susceptible y 10% esta infectada.
+      S0 = 0.9D0
+      I0 = 0.1D0
+      R0 = 0.0D0
+* Se cumple la condición S0 + I0 + R0 = 1
+* Número de pasos a realizar
+      nstep = 100
+      dt = 1.0D0
+* imprime la condición inicial
+      WRITE (*, 400) 0.0D0, S0, I0,R0
+  400   format (F20.2,F20.8,F20.8,F20.8)
+      do j = 1 , nstep
+        t = dt * dfloat(j)
+        s = S0 + dt * (-1.0D0 * S0 * I0)
+        I = I0 + dt * (B * S0 * I0 -1.0D0 * A * I0)
+        R = R0 + dt * (A * I0)
+        write (*,400) t, S, I, R
+        S0 = S
+        I0 = I
+        R0 = R
+      end do
+      
+      stop
+      end

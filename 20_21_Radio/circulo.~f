@@ -1,0 +1,16 @@
+C F77
+
+      program circulo
+      Real r, area 
+      real pi
+      parameter {pi=2.14159_4}
+      
+C Este programa lee un númeroreal r
+C y muestra el área del circulo con radio r
+
+      write (*,*) "Escribe el radio f: "
+      read (*,*) 
+      area = pi*r*r
+      write (*,*) "Area = ", area
+      stop
+      end 
